@@ -1,0 +1,1000 @@
+Card Number	Card Name
+OGN-001/298	Blazing Scorcher
+OGN-002/298	Brazen Buccaneer
+OGN-003/298	Chemtech Enforcer
+OGN-004/298	Cleave
+OGN-005/298	Disintegrate
+OGN-006/298	Flame Chompers
+OGN-007/298	Fury Rune
+OGN-007a/298	Fury Rune
+OGN-008/298	Get Excited!
+OGN-009/298	Hextech Ray
+OGN-010/298	Legion Rearguard
+OGN-011/298	Magma Wurm
+OGN-012/298	Noxus Hopeful
+OGN-013/298	Pouty Poro
+OGN-014/298	Sky Splitter
+OGN-015/298	Captain Farron
+OGN-016/298	Dangerous Duo
+OGN-017/298	Iron Ballista
+OGN-018/298	Noxus Saboteur
+OGN-019/298	Raging Soul
+OGN-020/298	Scrapyard Champion
+OGN-021/298	Sun Disc
+OGN-022/298	Thermo Beam
+OGN-023/298	Unlicensed Armory
+OGN-024/298	Void Seeker
+OGN-025/298	Blind Fury
+OGN-026/298	Brynhir Thundersong
+OGN-027/298	Darius, Trifarian
+OGN-027a/298	Darius, Trifarian
+OGN-028/298	Draven, Showboat
+OGN-029/298	Falling Star
+OGN-030/298	Jinx, Demolitionist
+OGN-030a/298	Jinx, Demolitionist
+OGN-031/298	Raging Firebrand
+OGN-032/298	Ravenborn Tome
+OGN-033/298	Shakedown
+OGN-034/298	Tryndamere, Barbarian
+OGN-035/298	Vayne, Hunter
+OGN-036/298	Vi, Destructive
+OGN-037/298	Immortal Phoenix
+OGN-038/298	Kadregrin the Infernal
+OGN-039/298	Kai'Sa, Survivor
+OGN-039a/298	Kai'Sa, Survivor
+OGN-040/298	Seal of Rage
+OGN-041/298	Volibear, Furious
+OGN-041a/298	Volibear, Furious
+OGN-042/298	Calm Rune
+OGN-042a/298	Calm Rune
+OGN-043/298	Charm
+OGN-044/298	Clockwork Keeper
+OGN-045/298	Defy
+OGN-046/298	En Garde
+OGN-047/298	Find Your Center
+OGN-048/298	Meditation
+OGN-049/298	Playful Phantom
+OGN-050/298	Rune Prison
+OGN-051/298	Solari Shieldbearer
+OGN-052/298	Stalwart Poro
+OGN-053/298	Stand United
+OGN-054/298	Sunlit Guardian
+OGN-055/298	Wielder of Water
+OGN-056/298	Adaptatron
+OGN-057/298	Block
+OGN-058/298	Discipline
+OGN-059/298	Eclipse Herald
+OGN-060/298	Mask of Foresight
+OGN-061/298	Poro Herder
+OGN-062/298	Reinforce
+OGN-063/298	Spirit's Refuge
+OGN-064/298	Wind Wall
+OGN-065/298	Wizened Elder
+OGN-066/298	Ahri, Alluring
+OGN-066a/298	Ahri, Alluring
+OGN-067/298	Blitzcrank, Impassive
+OGN-068/298	Caitlyn, Patrolling
+OGN-069/298	Last Stand
+OGN-070/298	Mageseeker Warden
+OGN-071/298	Party Favors
+OGN-072/298	Solari Shrine
+OGN-073/298	Sona, Harmonious
+OGN-074/298	Taric, Protector
+OGN-075/298	Tasty Faefolk
+OGN-076/298	Yasuo, Remorseful
+OGN-076a/298	Yasuo, Remorseful
+OGN-077/298	Zhonya's Hourglass
+OGN-078/298	Lee Sin, Ascetic
+OGN-078a/298	Lee Sin, Ascetic
+OGN-079/298	Leona, Zealot
+OGN-079a/298	Leona, Zealot
+OGN-080/298	Mystic Reversal
+OGN-081/298	Seal of Focus
+OGN-082/298	Whiteflame Protector
+OGN-083/298	Consult the Past
+OGN-084/298	Eager Apprentice
+OGN-085/298	Falling Comet
+OGN-086/298	Jeweled Colossus
+OGN-087/298	Lecturing Yordle
+OGN-088/298	Mega-Mech
+OGN-089/298	Mind Rune
+OGN-089a/298	Mind Rune
+OGN-090/298	Orb of Regret
+OGN-091/298	Pit Crew
+OGN-092/298	Riptide Rex
+OGN-093/298	Smoke Screen
+OGN-094/298	Sprite Call
+OGN-095/298	Stupefy
+OGN-096/298	Watchful Sentry
+OGN-097/298	Blastcone Fae
+OGN-098/298	Energy Conduit
+OGN-099/298	Garbage Grabber
+OGN-100/298	Gemcraft Seer
+OGN-101/298	Mushroom Pouch
+OGN-102/298	Portal Rescue
+OGN-103/298	Ravenbloom Student
+OGN-104/298	Retreat
+OGN-105/298	Singularity
+OGN-106/298	Sprite Mother
+OGN-107/298	Ava Achiever
+OGN-108/298	Convergent Mutation
+OGN-109/298	Dr. Mundo, Expert
+OGN-110/298	Ekko, Recurrent
+OGN-111/298	Heimerdinger, Inventor
+OGN-112/298	Kai'Sa, Evolutionary
+OGN-112a/298	Kai'Sa, Evolutionary
+OGN-113/298	Malzahar, Fanatic
+OGN-114/298	Progress Day
+OGN-115/298	Promising Future
+OGN-116/298	Thousand-Tailed Watcher
+OGN-117/298	Viktor, Innovator
+OGN-117a/298	Viktor, Innovator
+OGN-118/298	Wraith of Echoes
+OGN-119/298	Ahri, Inquisitive
+OGN-119a/298	Ahri, Inquisitive
+OGN-120/298	Seal of Insight
+OGN-121/298	Teemo, Strategist
+OGN-121a/298	Teemo, Strategist
+OGN-122/298	Time Warp
+OGN-123/298	Unchecked Power
+OGN-124/298	Arena Bar
+OGN-125/298	Bilgewater Bully
+OGN-126/298	Body Rune
+OGN-126a/298	Body Rune
+OGN-127/298	Cannon Barrage
+OGN-128/298	Challenge
+OGN-129/298	Confront
+OGN-130/298	Crackshot Corsair
+OGN-131/298	Dune Drake
+OGN-132/298	First Mate
+OGN-133/298	Flurry of Blades
+OGN-134/298	Mobilize
+OGN-135/298	Pakaa Cub
+OGN-136/298	Pit Rookie
+OGN-137/298	Stormclaw Ursine
+OGN-138/298	Catalyst of Aeons
+OGN-139/298	Cithria of Cloudfield
+OGN-140/298	Herald of Scales
+OGN-141/298	Kinkou Monk
+OGN-142/298	Mountain Drake
+OGN-143/298	Pirate's Haven
+OGN-144/298	Spoils of War
+OGN-145/298	Unyielding Spirit
+OGN-146/298	Wallop
+OGN-147/298	Wildclaw Shaman
+OGN-148/298	Anivia, Primal
+OGN-149/298	Carnivorous Snapvine
+OGN-150/298	Kraken Hunter
+OGN-151/298	Lee Sin, Centered
+OGN-151a/298	Lee Sin, Centered
+OGN-152/298	Mistfall
+OGN-153/298	Overt Operation
+OGN-154/298	Primal Strength
+OGN-155/298	Qiyana, Victorious
+OGN-156/298	Sabotage
+OGN-157/298	Udyr, Wildman
+OGN-158/298	Volibear, Imposing
+OGN-158a/298	Volibear, Imposing
+OGN-159/298	Warwick, Hunter
+OGN-160/298	Dazzling Aurora
+OGN-161/298	Deadbloom Predator
+OGN-162/298	Miss Fortune, Captain
+OGN-162a/298	Miss Fortune, Captain
+OGN-163/298	Seal of Strength
+OGN-164/298	Sett, Brawler
+OGN-164a/298	Sett, Brawler
+OGN-165/298	Cemetery Attendant
+OGN-166/298	Chaos Rune
+OGN-166a/298	Chaos Rune
+OGN-167/298	Ember Monk
+OGN-168/298	Fight or Flight
+OGN-169/298	Gust
+OGN-170/298	Morbid Return
+OGN-171/298	Mystic Poro
+OGN-172/298	Rebuke
+OGN-173/298	Ride the Wind
+OGN-174/298	Sai Scout
+OGN-175/298	Shipyard Skulker
+OGN-176/298	Sneaky Deckhand
+OGN-177/298	Stealthy Pursuer
+OGN-178/298	Undercover Agent
+OGN-179/298	Acceptable Losses
+OGN-180/298	Fading Memories
+OGN-181/298	Pack of Wonders
+OGN-182/298	Scrapheap
+OGN-183/298	Stacked Deck
+OGN-184/298	The Syren
+OGN-185/298	Traveling Merchant
+OGN-186/298	Treasure Trove
+OGN-187/298	Whirlwind
+OGN-188/298	Zaunite Bouncer
+OGN-189/298	Kayn, Unleashed
+OGN-190/298	Kog'Maw, Caustic
+OGN-191/298	Maddened Marauder
+OGN-192/298	Mindsplitter
+OGN-193/298	Miss Fortune, Buccaneer
+OGN-193a/298	Miss Fortune, Buccaneer
+OGN-194/298	Nocturne, Horrifying
+OGN-195/298	Rhasa the Sunderer
+OGN-196/298	Soulgorger
+OGN-197/298	Teemo, Scout
+OGN-197a/298	Teemo, Scout
+OGN-198/298	The Harrowing
+OGN-199/298	Tideturner
+OGN-200/298	Twisted Fate, Gambler
+OGN-201/298	Invert Timelines
+OGN-202/298	Jinx, Rebel
+OGN-202a/298	Jinx, Rebel
+OGN-203/298	Possession
+OGN-204/298	Seal of Discord
+OGN-205/298	Yasuo, Windrider
+OGN-205a/298	Yasuo, Windrider
+OGN-206/298	Back to Back
+OGN-207/298	Call to Glory
+OGN-208/298	Cruel Patron
+OGN-209/298	Cull the Weak
+OGN-210/298	Daring Poro
+OGN-211/298	Faithful Manufactor
+OGN-212/298	Forge of the Future
+OGN-213/298	Hidden Blade
+OGN-214/298	Order Rune
+OGN-214a/298	Order Rune
+OGN-215/298	Petty Officer
+OGN-216/298	Soaring Scout
+OGN-217/298	Trifarian Gloryseeker
+OGN-218/298	Vanguard Captain
+OGN-219/298	Vanguard Sergeant
+OGN-220/298	Facebreaker
+OGN-221/298	Imperial Decree
+OGN-222/298	Noxian Drummer
+OGN-223/298	Peak Guardian
+OGN-224/298	Salvage
+OGN-225/298	Solari Chief
+OGN-226/298	Spectral Matron
+OGN-227/298	Symbol of the Solari
+OGN-228/298	Vanguard Helm
+OGN-229/298	Vengeance
+OGN-230/298	Albus Ferros
+OGN-231/298	Commander Ledros
+OGN-232/298	Fiora, Victorious
+OGN-233/298	Grand Strategem
+OGN-234/298	Harnessed Dragon
+OGN-235/298	Karma, Channeler
+OGN-236/298	Karthus, Eternal
+OGN-237/298	King's Edict
+OGN-238/298	Leona, Determined
+OGN-238a/298	Leona, Determined
+OGN-239/298	Machine Evangel
+OGN-240/298	Sett, Kingpin
+OGN-240a/298	Sett, Kingpin
+OGN-241/298	Shen, Kinkou
+OGN-242/298	Baited Hook
+OGN-243/298	Darius, Executioner
+OGN-243a/298	Darius, Executioner
+OGN-244/298	Divine Judgment
+OGN-245/298	Seal of Unity
+OGN-246/298	Viktor, Leader
+OGN-246a/298	Viktor, Leader
+OGN-247/298	Daughter of the Void
+OGN-248/298	Icathian Rain
+OGN-249/298	Relentless Storm
+OGN-250/298	Stormbringer
+OGN-251/298	Loose Cannon
+OGN-252/298	Super Mega Death Rocket!
+OGN-253/298	Hand of Noxus
+OGN-254/298	Noxian Guillotine
+OGN-255/298	Nine-Tailed Fox
+OGN-256/298	Fox-Fire
+OGN-257/298	Blind Monk
+OGN-258/298	Dragon's Rage
+OGN-259/298	Unforgiven
+OGN-260/298	Last Breath
+OGN-261/298	Radiant Dawn
+OGN-262/298	Zenith Blade
+OGN-263/298	Swift Scout
+OGN-264/298	Guerilla Warfare
+OGN-265/298	Herald of the Arcane
+OGN-266/298	Siphon Power
+OGN-267/298	Bounty Hunter
+OGN-268/298	Bullet Time
+OGN-269/298	The Boss
+OGN-270/298	Showstopper
+OGN-271/298	Recruit (DE)
+OGN-272/298	Recruit (NX)
+OGN-273/298	Recruit (ZN)
+OGN-274/298	Sprite
+OGN-275/298	Altar to Unity
+OGN-276/298	Aspirant's Climb
+OGN-277/298	Back-Alley Bar
+OGN-278/298	Bandle Tree
+OGN-279/298	Fortified Position
+OGN-280/298	Grove of the God-Willow
+OGN-281/298	Hallowed Tomb
+OGN-282/298	Monastery of Hirana
+OGN-283/298	Navori Fighting Pit
+OGN-284/298	Obelisk of Power
+OGN-285/298	Reaver's Row
+OGN-286/298	Reckoner's Arena
+OGN-287/298	Sigil of the Storm
+OGN-288/298	Startipped Peak
+OGN-289/298	Targon's Peak
+OGN-290/298	The Arena's Greatest
+OGN-291/298	The Candlelit Sanctum
+OGN-292/298	The Dreaming Tree
+OGN-293/298	The Grand Plaza
+OGN-294/298	Trifarian War Camp
+OGN-295/298	Vilemaw's Lair
+OGN-296/298	Void Gate
+OGN-297/298	Windswept Hillock
+OGN-298/298	Zaun Warrens
+OGN-299*/298	Daughter of the Void
+OGN-299/298	Daughter of the Void
+OGN-300*/298	Relentless Storm
+OGN-300/298	Relentless Storm
+OGN-301*/298	Loose Cannon
+OGN-301/298	Loose Cannon
+OGN-302*/298	Hand of Noxus
+OGN-302/298	Hand of Noxus
+OGN-303*/298	Nine-Tailed Fox
+OGN-303/298	Nine-Tailed Fox
+OGN-304*/298	Blind Monk
+OGN-304/298	Blind Monk
+OGN-305*/298	Unforgiven
+OGN-305/298	Unforgiven
+OGN-306*/298	Radiant Dawn
+OGN-306/298	Radiant Dawn
+OGN-307*/298	Swift Scout
+OGN-307/298	Swift Scout
+OGN-308*/298	Herald of the Arcane
+OGN-308/298	Herald of the Arcane
+OGN-309*/298	Bounty Hunter
+OGN-309/298	Bounty Hunter
+OGN-310*/298	The Boss
+OGN-310/298	The Boss
+OGS-001/024	Annie, Fiery
+OGS-002/024	Firestorm
+OGS-003/024	Incinerate
+OGS-004/024	Yi, Meditative
+OGS-005/024	Zephyr Sage
+OGS-006/024	Lux, Illuminated
+OGS-007/024	Garen, Rugged
+OGS-008/024	Gentlemen's Duel
+OGS-009/024	Yi, Honed
+OGS-010/024	Annie, Stubborn
+OGS-011/024	Flash
+OGS-012/024	Blast of Power
+OGS-013/024	Garen, Commander
+OGS-014/024	Lux, Crownguard
+OGS-015/024	Recruit the Vanguard
+OGS-016/024	Vanguard Attendant
+OGS-017/024	Dark Child - Starter
+OGS-018/024	Tibbers
+OGS-019/024	Wuju Bladesman - Starter
+OGS-020/024	Highlander
+OGS-021/024	Lady of Luminosity - Starter
+OGS-022/024	Final Spark
+OGS-023/024	Might of Demacia - Starter
+OGS-024/024	Decisive Strike
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
