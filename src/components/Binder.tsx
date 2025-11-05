@@ -159,10 +159,10 @@ export default function Binder({}: BinderProps) {
     // Effets audio spéciaux
     if (num) {
       const audioByCard: Array<{ re: RegExp; src: string }> = [
-        { re: /OGN-307/i, src: "/teemo.ogg" },
-        { re: /OGN-308/i, src: "/viktor.ogg" },
-        { re: /OGN-309/i, src: "/missf.ogg" },
-        { re: /OGN-310/i, src: "/sett.ogg" },
+        { re: /OGN-307/i, src: "/sounds/teemo.ogg" },
+        { re: /OGN-308/i, src: "/sounds/viktor.ogg" },
+        { re: /OGN-309/i, src: "/sounds/missf.ogg" },
+        { re: /OGN-310/i, src: "/sounds/sett.ogg" },
       ];
       const m = audioByCard.find((x) => x.re.test(num));
       if (m) {
