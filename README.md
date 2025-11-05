@@ -31,7 +31,7 @@ Le schéma est créé à la volée via `ensureSchema()` lorsque vous appelez une
 
 ### Administration
 - Accès: `/admin` (protégé par middleware)
-- Login: `/admin/login` — mot de passe par défaut: `bonus`
+- Login: `/admin/login` — mot de passe par défaut: `0806`
 - L’admin charge les lignes via `GET /api/collection/rows` et applique les changements via `PATCH /api/collection`.
 
 ### Endpoints utiles
