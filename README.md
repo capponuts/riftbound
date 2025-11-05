@@ -1,54 +1,61 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+### Riftbound — League of Legends TCG: Portfolio & Collection
 
-## Riftbound: League of Legends TCG – Portfolio & Collection
+Application Next.js pour gérer une collection de cartes (OGN/OGS), avec page admin pour marquer possédé/doublon/foil et synchronisation avec une base PostgreSQL (Neon).
 
-Features:
+### Fonctionnalités
+- **Binder**: navigation par sets, recherche par nom/numéro
+- **Admin**: gestion des états (✅ possédé, x2 doublon, ✨ foil) — enregistrement auto
+- **Sync**: import depuis `public/liste.txt` vers la table `collection`
+- **Audio**: effets sonores sur certaines cartes (clic détaillé)
 
-- Add cards (name, rarity, quantity, Holo/Foil)
-- Estimated value with a simulated pricing table
-- Local persistence (localStorage)
-- Import a list file (txt/csv) to generate a "Duplicates list"
-- Runeterra-inspired visual theme
+### Stack
+- Next.js 16 (App Router), React 19, Tailwind v4
+- PostgreSQL via `pg`
 
-Code layout:
-
-- `src/types.ts`: card types and rarities
-- `src/lib/pricing.ts`: simulated prices (editable)
-- `src/lib/storage.ts`: local persistence
-- `src/components/*`: UI components (form, table, summary, imports)
-- `src/app/page.tsx`: composition of the app
-
-## Getting Started
-
-First, run the development server:
-
+### Démarrage local
 ```bash
+npm ci
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
+Ouvrir `http://localhost:3000`.
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+### Variables d’environnement
+- `DATABASE_URL` (PostgreSQL, ex. Neon, avec `sslmode=require`)
+  - Exemple: `postgresql://user:pass@host/neondb?sslmode=require`
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+### Base de données
+Le schéma est créé à la volée via `ensureSchema()` lorsque vous appelez une API (ex: `/api/admin/ping`).
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+- Table: `collection(name text, number text, owned boolean, duplicate boolean, foil boolean, updated_at timestamptz)` avec PK `(name, number)`.
+- Import de la liste: `POST /api/admin/sync` lit `public/liste.txt` et upsert chaque entrée.
 
-## Learn More
+### Administration
+- Accès: `/admin` (protégé par middleware)
+- Login: `/admin/login` — mot de passe par défaut: `bonus`
+- L’admin charge les lignes via `GET /api/collection/rows` et applique les changements via `PATCH /api/collection`.
 
-To learn more about Next.js, take a look at the following resources:
+### Endpoints utiles
+- `GET /api/admin/ping` — test connexion DB et création schéma
+- `POST /api/admin/sync` — import/maj de la liste publique dans `collection`
+- `GET /api/collection/rows` — lignes brutes (pour l’admin)
+- `GET /api/collection` — map `{ "name|||number": { owned, duplicate, foil } }` (pour le front binder)
+- `PATCH /api/collection` — upsert d’un état de carte
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+### Sons (public/sounds)
+- OGN-307 → `/sounds/teemo.ogg`
+- OGN-308 → `/sounds/viktor.ogg`
+- OGN-309 → `/sounds/missf.ogg`
+- OGN-310 → `/sounds/sett.ogg`
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+### Structure du code
+- `src/app/` — pages (binder `/`, admin `/admin`, API `/api/*`)
+- `src/components/` — composants UI (ex. `Binder.tsx`)
+- `src/lib/db.ts` — connexion PostgreSQL et `ensureSchema`
+- `public/liste.txt` — source d’import pour la synchro
 
-## Deploy on Vercel
+### Déploiement
+- Définir `DATABASE_URL` sur l’hébergeur (ex. Vercel)
+- Build: `npm run build`, Start: `npm start`
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+### Notes
+- Le login admin actuel est minimal (cookie + mot de passe statique). À durcir si nécessaire.
