@@ -1,64 +1,64 @@
 ### Riftbound — League of Legends TCG: Portfolio & Collection
 
-Application Next.js pour gérer une collection de cartes (OGN/OGS), avec page admin pour marquer possédé/doublon/foil et synchronisation avec une base PostgreSQL (Neon).
+Next.js application to manage a trading card collection (OGN/OGS), with an admin page to mark owned/duplicate/foil and a PostgreSQL (Neon) backend.
 
-### Fonctionnalités
-- **Binder**: navigation par sets, recherche par nom/numéro
-- **Admin**: gestion des états (✅ possédé, x2 doublon, ✨ foil) — enregistrement auto
-- **Sync**: import depuis `public/liste.txt` vers la table `collection`
-- **Audio**: effets sonores sur certaines cartes (clic détaillé)
+### Features
+- **Binder**: navigate by sets, search by name/number
+- **Admin**: manage states (✅ owned, x2 duplicate, ✨ foil) — auto-save
+- **Sync**: import from `public/liste.txt` into the `collection` table
+- **Audio**: sound effects on selected cards (on detail click)
 
 ### Stack
 - Next.js 16 (App Router), React 19, Tailwind v4
 - PostgreSQL via `pg`
 
-### Démarrage local
+### Local development
 ```bash
 npm ci
 npm run dev
 ```
-Ouvrir `http://localhost:3000`.
+Open `http://localhost:3000`.
 
-### Variables d’environnement
-- `DATABASE_URL` (PostgreSQL, ex. Neon, avec `sslmode=require`)
-  - Exemple: `postgresql://user:pass@host/neondb?sslmode=require`
-- `ADMIN_PASSWORD` (mot de passe admin)
-- `ADMIN_SESSION_SECRET` (secret HMAC pour signer le cookie de session)
+### Environment variables
+- `DATABASE_URL` (PostgreSQL, e.g., Neon, with `sslmode=require`)
+  - Example: `postgresql://user:pass@host/neondb?sslmode=require`
+- `ADMIN_PASSWORD` (admin password)
+- `ADMIN_SESSION_SECRET` (HMAC secret to sign the session cookie)
 
-### Base de données
-Le schéma est créé à la volée via `ensureSchema()` lorsque vous appelez une API (ex: `/api/admin/ping`).
+### Database
+The schema is created on demand by `ensureSchema()` when you call an API (e.g., `/api/admin/ping`).
 
-- Table: `collection(name text, number text, owned boolean, duplicate boolean, foil boolean, updated_at timestamptz)` avec PK `(name, number)`.
-- Import de la liste: `POST /api/admin/sync` lit `public/liste.txt` et upsert chaque entrée.
+- Table: `collection(name text, number text, owned boolean, duplicate boolean, foil boolean, updated_at timestamptz)` with PK `(name, number)`.
+- Import list: `POST /api/admin/sync` reads `public/liste.txt` and upserts each entry.
 
 ### Administration
-- Accès: `/admin` (protégé par middleware)
-- Login: `/admin/login` — mot de passe lu depuis `ADMIN_PASSWORD` (fallback dev `0806`)
-- Cookie: `admin_session` signé (HMAC) avec `ADMIN_SESSION_SECRET` (HttpOnly, SameSite=Lax)
-- L’admin charge les lignes via `GET /api/collection/rows` et applique les changements via `PATCH /api/collection`.
+- Access: `/admin` (protected by middleware)
+- Login: `/admin/login` — password is read from `ADMIN_PASSWORD` (dev fallback `0806`)
+- Session cookie: `admin_session` (HMAC-signed) with `ADMIN_SESSION_SECRET` (HttpOnly, SameSite=Lax)
+- Admin loads rows via `GET /api/collection/rows` and applies changes via `PATCH /api/collection`.
 
-### Endpoints utiles
-- `GET /api/admin/ping` — test connexion DB et création schéma
-- `POST /api/admin/sync` — import/maj de la liste publique dans `collection`
-- `GET /api/collection/rows` — lignes brutes (pour l’admin)
-- `GET /api/collection` — map `{ "name|||number": { owned, duplicate, foil } }` (pour le front binder)
-- `PATCH /api/collection` — upsert d’un état de carte
+### Useful endpoints
+- `GET /api/admin/ping` — DB connectivity and schema creation
+- `POST /api/admin/sync` — import/update the public list into `collection`
+- `GET /api/collection/rows` — raw rows (admin)
+- `GET /api/collection` — map `{ "name|||number": { owned, duplicate, foil } }` (binder frontend)
+- `PATCH /api/collection` — upsert a card state
 
-### Sons (public/sounds)
+### Sounds (public/sounds)
 - OGN-307 → `/sounds/teemo.ogg`
 - OGN-308 → `/sounds/viktor.ogg`
 - OGN-309 → `/sounds/missf.ogg`
 - OGN-310 → `/sounds/sett.ogg`
 
-### Structure du code
+### Code structure
 - `src/app/` — pages (binder `/`, admin `/admin`, API `/api/*`)
-- `src/components/` — composants UI (ex. `Binder.tsx`)
-- `src/lib/db.ts` — connexion PostgreSQL et `ensureSchema`
-- `public/liste.txt` — source d’import pour la synchro
+- `src/components/` — UI components (e.g., `Binder.tsx`)
+- `src/lib/db.ts` — PostgreSQL connection and `ensureSchema`
+- `public/liste.txt` — import source for sync
 
-### Déploiement
-- Définir `DATABASE_URL` sur l’hébergeur (ex. Vercel)
+### Deployment
+- Set `DATABASE_URL` on your hosting provider (e.g., Vercel)
 - Build: `npm run build`, Start: `npm start`
 
 ### Notes
-- Auth admin minimaliste avec cookie signé; changez `ADMIN_SESSION_SECRET` en prod.
+- Minimal admin auth with a signed cookie; set a strong `ADMIN_SESSION_SECRET` in production.
