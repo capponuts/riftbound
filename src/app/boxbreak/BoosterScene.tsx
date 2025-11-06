@@ -84,7 +84,7 @@ function SceneContent() {
     <>
       <group
         ref={groupRef}
-        position={[0, 0.2, 0]}
+        position={[0, 0.5, 0]}
         onPointerDown={onPointerDown}
         onPointerMove={onPointerMove}
         onPointerUp={onPointerUp}
@@ -93,9 +93,9 @@ function SceneContent() {
       >
         <primitive object={gltf.scene} dispose={null} />
         {/* Fallback plane with texture in case auto-apply didn't find a target mesh */}
-        <mesh position={[0, 0.28, 0.05]} rotation={[0, 0, 0]} castShadow receiveShadow>
+        <mesh position={[0, 0.30, 0.08]} rotation={[0, 0, 0]} castShadow receiveShadow>
           <planeGeometry args={[0.34, 0.55]} />
-          <meshBasicMaterial map={boosterTex} toneMapped={false} />
+          <meshBasicMaterial map={boosterTex} toneMapped={false} side={THREE.DoubleSide} />
         </mesh>
       </group>
     </>
@@ -115,7 +115,7 @@ export default function BoosterScene() {
           <SceneContent />
         </Suspense>
 
-        <mesh rotation={[-Math.PI / 2, 0, 0]} receiveShadow>
+        <mesh position={[0, -0.4, 0]} rotation={[-Math.PI / 2, 0, 0]} receiveShadow>
           <planeGeometry args={[20, 20]} />
           <meshStandardMaterial color="#0b0b0b" />
         </mesh>
