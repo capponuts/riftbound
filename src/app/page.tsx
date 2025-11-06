@@ -13,9 +13,14 @@ export default function Home() {
         <header className="relative flex flex-col items-center gap-2">
           <img src="/logo%20riftbound.png" alt="Riftbound" className="h-16 w-auto" />
           <div className="text-xs font-semibold text-amber-300/90">Origins — Set principal</div>
-          <a href="/admin" className="absolute right-0 top-0 rounded-md border border-zinc-700/60 px-2 py-1 text-xs text-zinc-300 hover:bg-zinc-800" aria-label="Admin">
-            🔒 Admin
-          </a>
+          <div className="absolute right-0 top-0 flex items-center gap-2">
+            <a href="/boxbreak" className="rounded-md border border-zinc-700/60 px-2 py-1 text-xs text-zinc-300 hover:bg-zinc-800" aria-label="Box Break">
+              🎁 Box Break
+            </a>
+            <a href="/admin" className="rounded-md border border-zinc-700/60 px-2 py-1 text-xs text-zinc-300 hover:bg-zinc-800" aria-label="Admin">
+              🔒 Admin
+            </a>
+          </div>
         </header>
 
         <Binder />
