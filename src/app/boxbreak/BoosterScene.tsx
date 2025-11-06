@@ -11,6 +11,7 @@ function SceneContent() {
   const boosterTex = useLoader(TextureLoader, "/booster.jpg");
   boosterTex.colorSpace = SRGBColorSpace;
   const gltf = useLoader(GLTFLoader as any, "/booster.glb") as any;
+  const baseScale = 0.7;
 
   // Apply texture to first matching mesh in the GLTF scene
   useEffect(() => {
@@ -72,8 +73,8 @@ function SceneContent() {
     if (!g) return;
     g.rotation.y = THREE.MathUtils.lerp(g.rotation.y, targetRotY, 1 - Math.pow(0.001, delta));
     g.rotation.x = THREE.MathUtils.lerp(g.rotation.x, targetRotX, 1 - Math.pow(0.001, delta));
-    const s = THREE.MathUtils.lerp(g.scale.x, scale, 1 - Math.pow(0.001, delta));
-    g.scale.setScalar(s);
+    const s = THREE.MathUtils.lerp(g.scale.x / baseScale, scale, 1 - Math.pow(0.001, delta));
+    g.scale.setScalar(s * baseScale);
     if (!dragging && Math.abs(targetRotX) < 0.1) {
       g.rotation.y += Math.sin(performance.now() * 0.001) * delta * 0.05;
     }
@@ -92,8 +93,8 @@ function SceneContent() {
       >
         <primitive object={gltf.scene} dispose={null} />
         {/* Fallback plane with texture in case auto-apply didn't find a target mesh */}
-        <mesh position={[0, 0.42, 0.12]} rotation={[0, 0, 0]} castShadow receiveShadow>
-          <planeGeometry args={[0.6, 0.9]} />
+        <mesh position={[0, 0.34, 0.07]} rotation={[0, 0, 0]} castShadow receiveShadow>
+          <planeGeometry args={[0.45, 0.7]} />
           <meshBasicMaterial map={boosterTex} toneMapped={false} />
         </mesh>
       </group>
@@ -102,7 +103,7 @@ function SceneContent() {
 }
 
 export default function BoosterScene() {
-  const cameraPosition = useMemo(() => [0, 1.2, 2.2] as [number, number, number], []);
+  const cameraPosition = useMemo(() => [0, 1.4, 3.2] as [number, number, number], []);
   return (
     <div className="h-[70vh] w-full rounded-lg border border-zinc-800 bg-zinc-950">
       <Canvas shadows dpr={[1, 2]} camera={{ position: cameraPosition, fov: 50 }}>
@@ -116,7 +117,7 @@ export default function BoosterScene() {
 
         <mesh rotation={[-Math.PI / 2, 0, 0]} receiveShadow>
           <planeGeometry args={[20, 20]} />
-          <meshStandardMaterial color="#0a0a0a" />
+          <meshStandardMaterial color="#0b0b0b" />
         </mesh>
       </Canvas>
     </div>
