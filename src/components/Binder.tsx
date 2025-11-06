@@ -135,8 +135,12 @@ export default function Binder({}: BinderProps) {
       6: "md:grid-cols-6 lg:grid-cols-6 xl:grid-cols-6",
       7: "md:grid-cols-7 lg:grid-cols-7 xl:grid-cols-7",
       8: "md:grid-cols-8 lg:grid-cols-8 xl:grid-cols-8",
+      9: "md:grid-cols-9 lg:grid-cols-9 xl:grid-cols-9",
+      10: "md:grid-cols-10 lg:grid-cols-10 xl:grid-cols-10",
+      11: "md:grid-cols-11 lg:grid-cols-11 xl:grid-cols-11",
+      12: "md:grid-cols-12 lg:grid-cols-12 xl:grid-cols-12",
     };
-    return map[Math.min(8, Math.max(4, cols))] ?? map[4];
+    return map[Math.min(12, Math.max(4, cols))] ?? map[4];
   }, [cols]);
 
   // Plus de gestion de quantité côté front; l'état vient du back-office
@@ -211,7 +215,7 @@ export default function Binder({}: BinderProps) {
             <input
               type="range"
               min={4}
-              max={8}
+              max={12}
               step={1}
               value={cols}
               onChange={(e) => setCols(parseInt(e.target.value))}
@@ -222,7 +226,7 @@ export default function Binder({}: BinderProps) {
         </div>
       </div>
       {setFilter !== "ogs" && (
-        <div className={`grid grid-cols-1 gap-3 sm:grid-cols-2 ${gridColsClass}`}>
+        <div className={`grid grid-cols-2 gap-3 sm:grid-cols-3 ${gridColsClass}`}>
           {refs.length === 0 ? (
             <div className="col-span-full text-zinc-500">Chargement de la liste…</div>
           ) : (
@@ -246,7 +250,7 @@ export default function Binder({}: BinderProps) {
       {setFilter !== "ogn" && ogsList.length > 0 && (
         <>
           <div className="mt-6 mb-2 text-sm font-semibold runeterra-title">Set Proving Grounds - Origins</div>
-          <div className={`grid grid-cols-1 gap-3 sm:grid-cols-2 ${gridColsClass}`}>
+          <div className={`grid grid-cols-2 gap-3 sm:grid-cols-3 ${gridColsClass}`}>
             {ogsList.map(({ name: n, number: raw }) => {
                 const status = statusMap[keyFor(n, raw)] || { owned: false, duplicate: false, foil: false };
                 const owned = !!status.owned;
