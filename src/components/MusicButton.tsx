@@ -23,7 +23,7 @@ export default function MusicButton() {
       const el = new Audio("/music.mp3");
       el.loop = true;
       el.preload = "auto";
-      el.volume = 0.6;
+      el.volume = 0.5;
       audioRef.current = el;
     }
   }, []);
@@ -72,11 +72,7 @@ export default function MusicButton() {
     }
   }, [playing, spawnParticles]);
 
-  const ringClasses = useMemo(
-    () =>
-      "pointer-events-none absolute inset-0 rounded-full border border-amber-400/30",
-    []
-  );
+  const ringBase = useMemo(() => "pointer-events-none absolute inset-0 rounded-full border-2 border-amber-400/30", []);
 
   return (
     <>
@@ -91,12 +87,12 @@ export default function MusicButton() {
           return (
             <img
               key={p.id}
-              src="/favicon.ico"
+              src="/icon.svg"
               alt=""
               style={{
                 transform: `translate(${x}px, ${y}px) scale(${scale})`,
-                width: p.size,
-                height: p.size,
+                width: p.size * 1.2,
+                height: p.size * 1.2,
                 opacity,
                 transition: "transform 80ms linear, opacity 120ms linear",
                 filter: "drop-shadow(0 1px 2px rgba(0,0,0,0.5))",
@@ -111,21 +107,20 @@ export default function MusicButton() {
         type="button"
         onClick={toggle}
         aria-label={playing ? "Pause music" : "Play music"}
-        className="fixed bottom-6 right-6 z-[61] flex h-12 w-12 items-center justify-center rounded-full border border-amber-400/40 bg-zinc-900 text-amber-300 shadow-lg shadow-black/40 outline-none transition hover:scale-105 active:scale-95"
+        className="fixed bottom-6 right-6 z-[61] flex h-14 w-14 items-center justify-center rounded-full border-2 border-amber-400/40 bg-zinc-900 text-amber-300 shadow-lg shadow-black/40 outline-none transition hover:scale-105 active:scale-95"
         style={{
           boxShadow: playing ? "0 0 0 2px rgba(245,158,11,0.25)" : undefined,
         }}
       >
-        {/* Icône musique simple (SVG inline) */}
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
-          <path d="M12 3v10.55A4 4 0 1 1 10 9V6h10V3h-8z" />
-        </svg>
+        {/* Icône personnalisée */}
+        <img src="/music-orange-icon.png" alt="" className="h-7 w-7 md:h-8 md:w-8" />
 
         {/* Ondes animées quand playing */}
         {playing && (
           <>
-            <span className={`${ringClasses} animate-ping`} />
-            <span className={`${ringClasses}`} style={{ animation: "ping 1.8s cubic-bezier(0,0,0.2,1) infinite" }} />
+            <span className={`${ringBase} animate-ping`} />
+            <span className={`${ringBase}`} style={{ transform: "scale(1.2)", animation: "ping 2s cubic-bezier(0,0,0.2,1) infinite" }} />
+            <span className={`${ringBase}`} style={{ transform: "scale(1.4)", animation: "ping 2.4s cubic-bezier(0,0,0.2,1) infinite" }} />
           </>
         )}
       </button>
