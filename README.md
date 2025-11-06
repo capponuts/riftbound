@@ -22,6 +22,8 @@ Ouvrir `http://localhost:3000`.
 ### Variables d’environnement
 - `DATABASE_URL` (PostgreSQL, ex. Neon, avec `sslmode=require`)
   - Exemple: `postgresql://user:pass@host/neondb?sslmode=require`
+- `ADMIN_PASSWORD` (mot de passe admin)
+- `ADMIN_SESSION_SECRET` (secret HMAC pour signer le cookie de session)
 
 ### Base de données
 Le schéma est créé à la volée via `ensureSchema()` lorsque vous appelez une API (ex: `/api/admin/ping`).
@@ -31,7 +33,8 @@ Le schéma est créé à la volée via `ensureSchema()` lorsque vous appelez une
 
 ### Administration
 - Accès: `/admin` (protégé par middleware)
-- Login: `/admin/login` — mot de passe par défaut: `0806`
+- Login: `/admin/login` — mot de passe lu depuis `ADMIN_PASSWORD` (fallback dev `0806`)
+- Cookie: `admin_session` signé (HMAC) avec `ADMIN_SESSION_SECRET` (HttpOnly, SameSite=Lax)
 - L’admin charge les lignes via `GET /api/collection/rows` et applique les changements via `PATCH /api/collection`.
 
 ### Endpoints utiles
@@ -58,4 +61,4 @@ Le schéma est créé à la volée via `ensureSchema()` lorsque vous appelez une
 - Build: `npm run build`, Start: `npm start`
 
 ### Notes
-- Le login admin actuel est minimal (cookie + mot de passe statique). À durcir si nécessaire.
+- Auth admin minimaliste avec cookie signé; changez `ADMIN_SESSION_SECRET` en prod.

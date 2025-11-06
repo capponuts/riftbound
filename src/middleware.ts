@@ -1,11 +1,12 @@
 import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
+import { verifySession } from "@/lib/auth";
 
 export function middleware(req: NextRequest) {
   const { pathname } = req.nextUrl;
   if (pathname.startsWith("/admin") && !pathname.startsWith("/admin/login")) {
-    const pass = req.cookies.get("admin_pass")?.value;
-    if (pass !== "0806") {
+    const token = req.cookies.get("admin_session")?.value;
+    if (!verifySession(token)) {
       const url = req.nextUrl.clone();
       url.pathname = "/admin/login";
       return NextResponse.redirect(url);
