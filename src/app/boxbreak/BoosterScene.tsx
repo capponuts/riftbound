@@ -11,7 +11,7 @@ function SceneContent() {
   const boosterTex = useLoader(TextureLoader, "/booster.jpg");
   boosterTex.colorSpace = SRGBColorSpace;
   const gltf = useLoader(GLTFLoader as any, "/booster.glb") as any;
-  const baseScale = 0.7;
+  const baseScale = 0.45;
 
   // Apply texture to first matching mesh in the GLTF scene
   useEffect(() => {
@@ -93,8 +93,8 @@ function SceneContent() {
       >
         <primitive object={gltf.scene} dispose={null} />
         {/* Fallback plane with texture in case auto-apply didn't find a target mesh */}
-        <mesh position={[0, 0.34, 0.07]} rotation={[0, 0, 0]} castShadow receiveShadow>
-          <planeGeometry args={[0.45, 0.7]} />
+        <mesh position={[0, 0.28, 0.05]} rotation={[0, 0, 0]} castShadow receiveShadow>
+          <planeGeometry args={[0.34, 0.55]} />
           <meshBasicMaterial map={boosterTex} toneMapped={false} />
         </mesh>
       </group>
@@ -103,10 +103,10 @@ function SceneContent() {
 }
 
 export default function BoosterScene() {
-  const cameraPosition = useMemo(() => [0, 1.4, 3.2] as [number, number, number], []);
+  const cameraPosition = useMemo(() => [0, 1.6, 5.2] as [number, number, number], []);
   return (
     <div className="h-[70vh] w-full rounded-lg border border-zinc-800 bg-zinc-950">
-      <Canvas shadows dpr={[1, 2]} camera={{ position: cameraPosition, fov: 50 }}>
+      <Canvas shadows dpr={[1, 2]} camera={{ position: cameraPosition, fov: 45 }}>
         <ambientLight intensity={0.6} />
         <directionalLight position={[2, 4, 2]} intensity={1.1} castShadow shadow-mapSize-width={1024} shadow-mapSize-height={1024} />
         <spotLight position={[-3, 6, 3]} angle={0.3} penumbra={0.5} intensity={0.7} castShadow />
