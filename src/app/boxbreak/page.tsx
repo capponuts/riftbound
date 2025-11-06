@@ -1,3 +1,4 @@
+"use client";
 import dynamic from "next/dynamic";
 
 const BoosterScene = dynamic(() => import("./BoosterScene"), { ssr: false });

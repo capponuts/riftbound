@@ -2,16 +2,16 @@
 
 import { Canvas, useFrame, useLoader } from "@react-three/fiber";
 import { Suspense, useMemo, useRef, useState, useEffect, useCallback } from "react";
-import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader.js";
+import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader";
 import { TextureLoader, SRGBColorSpace } from "three";
 import * as THREE from "three";
 
 function BoosterModel({ texture }: { texture: THREE.Texture | null }) {
-  const gltf = useLoader(GLTFLoader, "/booster.glb");
+  const gltf = useLoader(GLTFLoader as any, "/booster.glb") as any;
   useEffect(() => {
     if (!texture) return;
     let applied = false;
-    gltf.scene.traverse((obj) => {
+    gltf.scene.traverse((obj: any) => {
       const mesh = obj as THREE.Mesh;
       const name = (mesh.name || "").toLowerCase();
       const mat: any = (mesh as any).material;
