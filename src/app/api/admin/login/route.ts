@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { getAdminPassword, signSession } from "@/lib/auth";
+import { getAdminPassword, signSession } from "@/lib/auth-node";
 
 export const runtime = "nodejs";
 
