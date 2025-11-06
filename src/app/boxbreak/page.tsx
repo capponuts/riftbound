@@ -1,7 +1,5 @@
 "use client";
-import dynamic from "next/dynamic";
-
-const BoosterScene = dynamic(() => import("./BoosterScene"), { ssr: false });
+import BoosterScene from "./BoosterScene";
 
 export default function BoxBreakPage() {
   return (
