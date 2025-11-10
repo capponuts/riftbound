@@ -127,6 +127,38 @@ export default function Binder({}: BinderProps) {
       });
   }, [filteredRefs]);
 
+  const ognProgress = useMemo(() => {
+    const total = ognList.length;
+    let owned = 0;
+    for (const { name: n, number: raw } of ognList) {
+      if (statusMap[keyFor(n, raw)]?.owned) owned++;
+    }
+    const pct = total > 0 ? Math.round((owned / total) * 100) : 0;
+    return { owned, total, pct };
+  }, [ognList, statusMap]);
+
+  const ogsProgress = useMemo(() => {
+    const total = ogsList.length;
+    let owned = 0;
+    for (const { name: n, number: raw } of ogsList) {
+      if (statusMap[keyFor(n, raw)]?.owned) owned++;
+    }
+    const pct = total > 0 ? Math.round((owned / total) * 100) : 0;
+    return { owned, total, pct };
+  }, [ogsList, statusMap]);
+
+  function ProgressBar({ pct, label }: { pct: number; label?: string }) {
+    const v = Math.max(0, Math.min(100, pct));
+    return (
+      <div className="flex items-center gap-2">
+        <div className="h-2 w-32 overflow-hidden rounded-full border border-amber-500/40 bg-zinc-800">
+          <div className="h-full bg-amber-500" style={{ width: `${v}%` }} />
+        </div>
+        <span className="text-xs text-zinc-400">{label ?? `${v}%`}</span>
+      </div>
+    );
+  }
+
   const gridColsClass = useMemo(() => {
     // Table statique pour Tailwind (évite les classes dynamiques non détectées)
     const map: Record<number, string> = {
@@ -226,6 +258,11 @@ export default function Binder({}: BinderProps) {
         </div>
       </div>
       {setFilter !== "ogs" && (
+        <>
+        <div className="mb-1 flex items-center justify-between">
+          <div className="text-sm font-semibold text-amber-300">Set de Base (OGN)</div>
+          <ProgressBar pct={ognProgress.pct} label={`${ognProgress.owned}/${ognProgress.total}`} />
+        </div>
         <div className={`grid grid-cols-2 gap-3 sm:grid-cols-3 ${gridColsClass}`}>
           {refs.length === 0 ? (
             <div className="col-span-full text-zinc-500">Chargement de la liste…</div>
@@ -245,11 +282,15 @@ export default function Binder({}: BinderProps) {
             })
           )}
         </div>
+        </>
       )}
       {/* Proving Grounds */}
       {setFilter !== "ogn" && ogsList.length > 0 && (
         <>
-          <div className="mt-6 mb-2 text-sm font-semibold runeterra-title">Set Proving Grounds - Origins</div>
+          <div className="mt-6 mb-2 flex items-center justify-between">
+            <div className="text-sm font-semibold runeterra-title">Set Proving Grounds - Origins</div>
+            <ProgressBar pct={ogsProgress.pct} label={`${ogsProgress.owned}/${ogsProgress.total}`} />
+          </div>
           <div className={`grid grid-cols-2 gap-3 sm:grid-cols-3 ${gridColsClass}`}>
             {ogsList.map(({ name: n, number: raw }) => {
                 const status = statusMap[keyFor(n, raw)] || { owned: false, duplicate: false, foil: false };
