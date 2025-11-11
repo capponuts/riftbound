@@ -46,6 +46,7 @@ function useAllCardRefs(): CardRef[] {
 export default function Binder({}: BinderProps) {
   const refs = useAllCardRefs();
   const [imageMap, setImageMap] = useState<Record<string, string>>({});
+  const [priceMap, setPriceMap] = useState<Record<string, number>>({});
   const [query, setQuery] = useState("");
   const [cols, setCols] = useState<number>(4);
   const [setFilter, setSetFilter] = useState<"all" | "ogn" | "ogs">("all");
@@ -62,6 +63,18 @@ export default function Binder({}: BinderProps) {
     })();
   }, []);
 
+  // Fetch live prices (Cardmarket scraping via API)
+  useEffect(() => {
+    (async () => {
+      try {
+        const res = await fetch("/api/prices", { cache: "no-cache" });
+        if (!res.ok) return;
+        const data = (await res.json()) as { prices?: Record<string, number> };
+        if (data?.prices) setPriceMap(data.prices);
+      } catch {}
+    })();
+  }, []);
+
   useEffect(() => {
     (async () => {
       try {
@@ -69,9 +82,11 @@ export default function Binder({}: BinderProps) {
         if (!res.ok) return;
         const data = (await res.json()) as Record<string, { owned: boolean; duplicate: boolean; foil: boolean }>;
         setStatusMap(data || {});
+        // Exposer la priceMap pour les tuiles (simplifie sans prop drilling)
+        (globalThis as any).__priceMap__ = priceMap;
       } catch {}
     })();
-  }, []);
+  }, [priceMap]);
 
   function keyFor(name: string, rawNum?: string): string {
     return `${name}|||${rawNum ?? ''}`;
@@ -146,6 +161,28 @@ export default function Binder({}: BinderProps) {
     const pct = total > 0 ? Math.round((owned / total) * 100) : 0;
     return { owned, total, pct };
   }, [ogsList, statusMap]);
+
+  const ownedTotalValue = useMemo(() => {
+    let sum = 0;
+    const fmtNum = (v: string | undefined) => {
+      if (!v) return undefined;
+      const base = v.split("/")[0] || v;
+      return base.replace(/\*/g, "").toUpperCase();
+    };
+    for (const { name: n, number: raw } of refs) {
+      const status = statusMap[keyFor(n, raw)];
+      if (!status?.owned) continue;
+      const num = fmtNum(raw);
+      if (!num) continue;
+      const price = priceMap[num];
+      if (!price) continue;
+      const qty = status.duplicate ? 2 : 1;
+      sum += price * qty;
+    }
+    return sum;
+  }, [refs, statusMap, priceMap]);
+
+  const eur = (v: number) => new Intl.NumberFormat("fr-FR", { style: "currency", currency: "EUR" }).format(v);
 
   function ProgressBar({ pct, label }: { pct: number; label?: string }) {
     const v = Math.max(0, Math.min(100, pct));
@@ -254,6 +291,9 @@ export default function Binder({}: BinderProps) {
               className="h-2 w-40 cursor-pointer appearance-none rounded bg-zinc-800"
             />
             <div className="min-w-6 text-right text-xs text-zinc-300">{cols}</div>
+          </div>
+          <div className="ml-auto text-xs text-amber-300">
+            Valeur possédée: <span className="font-semibold">{eur(ownedTotalValue)}</span>
           </div>
         </div>
       </div>
@@ -364,6 +404,25 @@ function CardImage({ name, urls, owned, foil, duplicate }: { name: string; urls:
 
 function CardTile({ name, imageUrls, owned, foil, duplicate, numberText, onClick }: { name: string; imageUrls: string[]; owned: boolean; foil?: boolean; duplicate?: boolean; numberText?: string; onClick: () => void }) {
   const [transform, setTransform] = useState<string>("perspective(800px) rotateX(0deg) rotateY(0deg) scale(1)");
+  const [price, setPrice] = useState<number | null>(null);
+
+  // Price lookup based on card number (normalized like OGN-310)
+  const normalizedNumber = useMemo(() => {
+    if (!numberText) return undefined;
+    const base = (numberText.split("/")[0] || numberText).trim();
+    return base ? `OGN-${base}`.toUpperCase() : undefined;
+  }, [numberText]);
+
+  useEffect(() => {
+    // Price map is in parent; we read via window global injected by parent effect as fallback
+    const g: any = (globalThis as any);
+    const map: Record<string, number> | undefined = g.__priceMap__;
+    if (map && normalizedNumber) {
+      setPrice(map[normalizedNumber] ?? null);
+    } else {
+      setPrice(null);
+    }
+  }, [normalizedNumber]);
 
   function handleMove(e: React.MouseEvent<HTMLDivElement>) {
     const rect = e.currentTarget.getBoundingClientRect();
@@ -399,7 +458,14 @@ function CardTile({ name, imageUrls, owned, foil, duplicate, numberText, onClick
       </div>
       <div className={`px-2 py-2 ${owned ? "text-amber-100" : "text-zinc-400"} flex items-center justify-between`}>
         <span className="line-clamp-2">{name}</span>
-        {numberText && <span className="ml-2 shrink-0 text-xs text-zinc-500">{numberText}</span>}
+        <div className="ml-2 flex shrink-0 flex-col items-end">
+          {numberText && <span className="text-xs text-zinc-500">{numberText}</span>}
+          {price != null && (
+            <span className="text-xs text-amber-300">
+              {new Intl.NumberFormat("fr-FR", { style: "currency", currency: "EUR" }).format(price)}
+            </span>
+          )}
+        </div>
       </div>
     </div>
   );
