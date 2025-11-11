@@ -37,7 +37,7 @@ function useAllCardRefs(): CardRef[] {
 export default function Binder({}: BinderProps) {
   const refs = useAllCardRefs();
   const [imageMap, setImageMap] = useState<Record<string, string>>({});
-  const [priceMap, setPriceMap] = useState<Record<string, number>>({});
+  // plus de prix
   const [query, setQuery] = useState("");
   const [cols, setCols] = useState<number>(4);
   const [setFilter, setSetFilter] = useState<"all" | "ogn" | "ogs">("all");
@@ -175,28 +175,7 @@ export default function Binder({}: BinderProps) {
     return { owned, total, pct };
   }, [ogsList, statusMap]);
 
-  const ownedTotalValue = useMemo(() => {
-    let sum = 0;
-    const fmtNum = (v: string | undefined) => {
-      if (!v) return undefined;
-      const base = v.split("/")[0] || v;
-      return base.replace(/\*/g, "").toUpperCase();
-    };
-    for (const { name: n, number: raw } of refs) {
-      const status = statusMap[keyFor(n, raw)];
-      if (!status?.owned) continue;
-      const num = fmtNum(raw);
-      if (!num) continue;
-      const numericOnly = num.replace(/^OG[NS]-/i, "");
-      const price = priceMap[num] ?? priceMap[numericOnly];
-      if (!price) continue;
-      const qty = status.duplicate ? 2 : 1;
-      sum += price * qty;
-    }
-    return sum;
-  }, [refs, statusMap, priceMap]);
-
-  const eur = (v: number) => new Intl.NumberFormat("fr-FR", { style: "currency", currency: "EUR" }).format(v);
+  // plus de valeur totale
 
   function ProgressBar({ pct, label }: { pct: number; label?: string }) {
     const v = Math.max(0, Math.min(100, pct));
@@ -306,9 +285,7 @@ export default function Binder({}: BinderProps) {
             />
             <div className="min-w-6 text-right text-xs text-zinc-300">{cols}</div>
           </div>
-          <div className="ml-auto text-xs text-amber-300">
-            Valeur possédée: <span className="font-semibold">{eur(ownedTotalValue)}</span>
-          </div>
+          
         </div>
       </div>
       {setFilter !== "ogs" && (
@@ -330,17 +307,8 @@ export default function Binder({}: BinderProps) {
             const foil = !!status.foil;
             const duplicate = !!status.duplicate;
             const displayNum = raw ? (raw.split("-")[1] || raw) : "";
-            const lookup = (num ?? "").replace(/s$/i, "");
-            const numericOnly = lookup.replace(/^OG[NS]-/i, "");
-            const unitPrice = lookup ? (priceMap[lookup] ?? priceMap[numericOnly]) : undefined;
-            if (process.env.NODE_ENV !== "production" && !unitPrice) {
-              try {
-                // eslint-disable-next-line no-console
-                console.debug("[price:miss]", { name: n, raw, lookup, numericOnly });
-              } catch {}
-            }
             return (
-              <CardTile key={`${n}-${num ?? ""}`} name={n} imageUrls={urls} owned={owned} foil={foil} duplicate={duplicate} numberText={displayNum} price={unitPrice} onClick={() => openDetails(n, raw)} />
+              <CardTile key={`${n}-${num ?? ""}`} name={n} imageUrls={urls} owned={owned} foil={foil} duplicate={duplicate} numberText={displayNum} onClick={() => openDetails(n, raw)} />
             );
             })
           )}
@@ -364,17 +332,8 @@ export default function Binder({}: BinderProps) {
                 const foil = !!status.foil;
                 const duplicate = !!status.duplicate;
                 const displayNum = raw ? (raw.split("-")[1] || raw) : "";
-                const lookup = (num ?? "").replace(/s$/i, "");
-                const numericOnly = lookup.replace(/^OG[NS]-/i, "");
-                const unitPrice = lookup ? (priceMap[lookup] ?? priceMap[numericOnly]) : undefined;
-                if (process.env.NODE_ENV !== "production" && !unitPrice) {
-                  try {
-                    // eslint-disable-next-line no-console
-                    console.debug("[price:miss]", { name: n, raw, lookup, numericOnly });
-                  } catch {}
-                }
                 return (
-                  <CardTile key={`${n}-${num ?? ""}`} name={n} imageUrls={urls} owned={owned} foil={foil} duplicate={duplicate} numberText={displayNum} price={unitPrice} onClick={() => openDetails(n, raw)} />
+                  <CardTile key={`${n}-${num ?? ""}`} name={n} imageUrls={urls} owned={owned} foil={foil} duplicate={duplicate} numberText={displayNum} onClick={() => openDetails(n, raw)} />
                 );
               })}
           </div>
@@ -434,7 +393,7 @@ function CardImage({ name, urls, owned, foil, duplicate }: { name: string; urls:
   );
 }
 
-function CardTile({ name, imageUrls, owned, foil, duplicate, numberText, price, onClick }: { name: string; imageUrls: string[]; owned: boolean; foil?: boolean; duplicate?: boolean; numberText?: string; price?: number; onClick: () => void }) {
+function CardTile({ name, imageUrls, owned, foil, duplicate, numberText, onClick }: { name: string; imageUrls: string[]; owned: boolean; foil?: boolean; duplicate?: boolean; numberText?: string; onClick: () => void }) {
   const [transform, setTransform] = useState<string>("perspective(800px) rotateX(0deg) rotateY(0deg) scale(1)");
 
   function handleMove(e: React.MouseEvent<HTMLDivElement>) {
@@ -471,14 +430,7 @@ function CardTile({ name, imageUrls, owned, foil, duplicate, numberText, price, 
       </div>
       <div className={`px-2 py-2 ${owned ? "text-amber-100" : "text-zinc-400"} flex items-center justify-between`}>
         <span className="line-clamp-2">{name}</span>
-        <div className="ml-2 flex shrink-0 flex-col items-end">
-          {numberText && <span className="text-xs text-zinc-500">{numberText}</span>}
-          {typeof price === "number" && !Number.isNaN(price) && (
-            <span className="text-xs text-amber-300">
-              {new Intl.NumberFormat("fr-FR", { style: "currency", currency: "EUR" }).format(price)}
-            </span>
-          )}
-        </div>
+        {numberText && <span className="ml-2 shrink-0 text-xs text-zinc-500">{numberText}</span>}
       </div>
     </div>
   );
