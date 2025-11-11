@@ -78,7 +78,21 @@ export async function GET(req: Request) {
       return NextResponse.json(base);
     }
     const pages = Array.from({ length: 10 }, (_, i) => i + 1);
-    const htmls = await Promise.allSettled(pages.map(fetchPage));
+    const results: Array<{ site: number; ok: boolean; status?: number; size?: number }> = [];
+    const htmls = await Promise.allSettled(
+      pages.map(async (site) => {
+        try {
+          const html = await fetchPage(site);
+          results.push({ site, ok: true, status: 200, size: html.length });
+          return html;
+        } catch (e: any) {
+          const msg = String(e?.message ?? e);
+          const status = Number(msg.match(/fetch\\s+\\d+\\s+(\\d+)/)?.[1] ?? 0) || undefined;
+          results.push({ site, ok: false, status });
+          throw e;
+        }
+      })
+    );
     const map: Record<string, number> = {};
     for (const r of htmls) {
       if (r.status !== "fulfilled") continue;
@@ -100,7 +114,7 @@ export async function GET(req: Request) {
     lastAt = now;
     lastData = map;
     const base = { ok: true, prices: map, cached: false };
-    if (debug) return NextResponse.json({ ...base, keys: Object.keys(map).slice(0, 200) });
+    if (debug) return NextResponse.json({ ...base, keys: Object.keys(map).slice(0, 200), pageStatus: results });
     return NextResponse.json(base);
   } catch (e: any) {
     return NextResponse.json({ ok: false, error: String(e?.message ?? e) }, { status: 500 });

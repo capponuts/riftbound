@@ -59,8 +59,18 @@ export default function Binder({}: BinderProps) {
     (async () => {
       try {
         const res = await fetch("/api/prices?debug=1", { cache: "no-cache" });
-        if (!res.ok) return;
-        const data = (await res.json()) as { prices?: Record<string, number>; keys?: string[]; cached?: boolean };
+        if (!res.ok) {
+          try {
+            const t = await res.text();
+            // eslint-disable-next-line no-console
+            console.error("[prices] http error", res.status, t.slice(0, 500));
+          } catch {
+            // eslint-disable-next-line no-console
+            console.error("[prices] http error", res.status);
+          }
+          return;
+        }
+        const data = (await res.json()) as { ok?: boolean; prices?: Record<string, number>; keys?: string[]; cached?: boolean; error?: string; pageStatus?: any };
         if (data?.prices) {
           setPriceMap(data.prices);
           (globalThis as any).__priceMap__ = data.prices;
@@ -68,11 +78,11 @@ export default function Binder({}: BinderProps) {
           try {
             const keys = Object.keys(data.prices);
             // eslint-disable-next-line no-console
-            console.debug("[prices] loaded", { count: keys.length, sample: keys.slice(0, 20), cached: data.cached });
+            console.debug("[prices] loaded", { count: keys.length, sample: keys.slice(0, 20), cached: data.cached, pageStatus: data.pageStatus });
           } catch {}
         } else {
           // eslint-disable-next-line no-console
-          console.debug("[prices] no data");
+          console.debug("[prices] no data", data);
         }
       } catch {}
     })();
