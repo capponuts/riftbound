@@ -31,14 +31,17 @@ async function fetchPage(site: number): Promise<string> {
   return await res.text();
 }
 
-function extractPrices(html: string): Array<{ code: string; price: number }> {
-  const out: Array<{ code: string; price: number }> = [];
+function extractPrices(html: string): Array<{ code?: string; num?: string; price: number }> {
+  const out: Array<{ code?: string; num?: string; price: number }> = [];
   const $ = cheerio.load(html);
   // Heuristique: chaque ligne produit
   $("tbody tr, article, .table-body-row, .product-list-item").each((_, el) => {
     const text = $(el).text();
     const codeMatch = text.match(/OG[NS]-\d+[a-z]?/i);
-    if (!codeMatch) return;
+    const numMatch =
+      text.match(/(\d{1,3}[a-z]?)\s*\/\s*\d{2,3}/i) || // 310/298
+      text.match(/\bNo\.?\s*([0-9]{1,3}[a-z]?)/i) ||
+      text.match(/\b#\s*([0-9]{1,3}[a-z]?)/i);
     const fromMatch =
       text.match(/From\s*([\d.,]+\s*€)/i) ||
       text.match(/Starting from\s*([\d.,]+\s*€)/i) ||
@@ -46,15 +49,17 @@ function extractPrices(html: string): Array<{ code: string; price: number }> {
     if (!fromMatch) return;
     const price = parseEuro(fromMatch[1]);
     if (price == null) return;
-    out.push({ code: codeMatch[0].toUpperCase(), price });
+    out.push({ code: codeMatch ? codeMatch[0].toUpperCase() : undefined, num: numMatch ? numMatch[1].toUpperCase() : undefined, price });
   });
   // Fallback: recherche globale par blocs
   if (out.length === 0) {
-    const regex = /(OG[NS]-\d+[a-z]?)[\\s\\S]{0,400}?(?:From|Starting from)\\s*([\\d.,]+\\s*€)/gi;
+    const regex = /(OG[NS]-\d+[a-z]?)|(\b[0-9]{1,3}[a-z]?\s*\/\s*[0-9]{2,3})[\s\S]{0,400}?(?:From|Starting from)\s*([\d.,]+\s*€)/gi;
     let m: RegExpExecArray | null;
     while ((m = regex.exec(html)) !== null) {
-      const price = parseEuro(m[2]);
-      if (price != null) out.push({ code: m[1].toUpperCase(), price });
+      const code = m[1] ? m[1].toUpperCase() : undefined;
+      const numOnly = m[2] ? (m[2].split("/")[0] || "").trim().toUpperCase() : undefined;
+      const price = parseEuro(m[3] || "");
+      if (price != null) out.push({ code, num: numOnly, price });
     }
   }
   return out;
@@ -75,9 +80,18 @@ export async function GET(req: Request) {
     for (const r of htmls) {
       if (r.status !== "fulfilled") continue;
       const rows = extractPrices(r.value);
-      for (const { code, price } of rows) {
+      for (const { code, num, price } of rows) {
         // garder le prix le plus bas observé
-        if (map[code] == null || price < map[code]) map[code] = price;
+        if (code) {
+          if (map[code] == null || price < map[code]) map[code] = price;
+        }
+        if (num) {
+          const n = num.replace(/\s+/g, "");
+          if (map[n] == null || price < map[n]) map[n] = price; // clé numérique seule (ex: 310)
+          // Clé OGN-<num> par défaut pour cette page Origins
+          const ognKey = `OGN-${n}`;
+          if (map[ognKey] == null || price < map[ognKey]) map[ognKey] = price;
+        }
       }
     }
     lastAt = now;

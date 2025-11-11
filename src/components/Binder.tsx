@@ -174,7 +174,8 @@ export default function Binder({}: BinderProps) {
       if (!status?.owned) continue;
       const num = fmtNum(raw);
       if (!num) continue;
-      const price = priceMap[num];
+      const numericOnly = num.replace(/^OG[NS]-/i, "");
+      const price = priceMap[num] ?? priceMap[numericOnly];
       if (!price) continue;
       const qty = status.duplicate ? 2 : 1;
       sum += price * qty;
@@ -317,7 +318,8 @@ export default function Binder({}: BinderProps) {
             const duplicate = !!status.duplicate;
             const displayNum = raw ? (raw.split("-")[1] || raw) : "";
             const lookup = (num ?? "").replace(/s$/i, "");
-            const unitPrice = lookup ? priceMap[lookup] : undefined;
+            const numericOnly = lookup.replace(/^OG[NS]-/i, "");
+            const unitPrice = lookup ? (priceMap[lookup] ?? priceMap[numericOnly]) : undefined;
             return (
               <CardTile key={`${n}-${num ?? ""}`} name={n} imageUrls={urls} owned={owned} foil={foil} duplicate={duplicate} numberText={displayNum} price={unitPrice} onClick={() => openDetails(n, raw)} />
             );
@@ -344,7 +346,8 @@ export default function Binder({}: BinderProps) {
                 const duplicate = !!status.duplicate;
                 const displayNum = raw ? (raw.split("-")[1] || raw) : "";
                 const lookup = (num ?? "").replace(/s$/i, "");
-                const unitPrice = lookup ? priceMap[lookup] : undefined;
+                const numericOnly = lookup.replace(/^OG[NS]-/i, "");
+                const unitPrice = lookup ? (priceMap[lookup] ?? priceMap[numericOnly]) : undefined;
                 return (
                   <CardTile key={`${n}-${num ?? ""}`} name={n} imageUrls={urls} owned={owned} foil={foil} duplicate={duplicate} numberText={displayNum} price={unitPrice} onClick={() => openDetails(n, raw)} />
                 );
