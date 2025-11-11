@@ -14,25 +14,16 @@ function useAllCardRefs(): CardRef[] {
     let cancelled = false;
     async function loadList() {
       try {
-        const res = await fetch("/liste.txt", { cache: "force-cache" });
-        if (!res.ok) return;
-        const text = await res.text();
-        const lines = text.split(/\r?\n/);
-        const out: CardRef[] = [];
-        for (let i = 1; i < lines.length; i++) {
-          const line = lines[i];
-          if (!line) continue;
-          const parts = line.split(/\t/);
-          if (parts.length < 2) continue;
-          const num = parts[0]?.trim();
-          const nm = parts[1]?.trim();
-          if (nm) out.push({ name: nm, number: num });
+        const res = await fetch("/api/list", { cache: "no-cache" });
+        if (!res.ok) {
+          console.error("[list] fetch failed", res.status);
+          return;
         }
-        // Dédupliquer par nom: garder une entrée canonique (préférer non-variant, sans *, numéro le + petit)
-        // 1 ligne par numéro: garder toutes les entrées
-        if (!cancelled) setRefs(out);
-      } catch {
-        // silent
+        const data = (await res.json()) as Array<{ name: string; number?: string }>;
+        if (!cancelled) setRefs(data || []);
+        console.log("[list] loaded", { count: data?.length ?? 0 });
+      } catch (e) {
+        console.error("[list] error", e);
       }
     }
     loadList();
