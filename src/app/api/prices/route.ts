@@ -70,9 +70,12 @@ export async function GET(req: Request) {
     const now = Date.now();
     const url = new URL(req.url);
     const force = url.searchParams.get("force") === "1";
+    const debug = url.searchParams.get("debug") === "1";
     // TTL 2h par défaut
     if (!force && lastAt && now - lastAt < 2 * 60 * 60 * 1000 && lastData && Object.keys(lastData).length) {
-      return NextResponse.json({ ok: true, prices: lastData, cached: true });
+      const base = { ok: true, prices: lastData, cached: true };
+      if (debug) return NextResponse.json({ ...base, keys: Object.keys(lastData).slice(0, 200) });
+      return NextResponse.json(base);
     }
     const pages = Array.from({ length: 10 }, (_, i) => i + 1);
     const htmls = await Promise.allSettled(pages.map(fetchPage));
@@ -96,7 +99,9 @@ export async function GET(req: Request) {
     }
     lastAt = now;
     lastData = map;
-    return NextResponse.json({ ok: true, prices: map, cached: false });
+    const base = { ok: true, prices: map, cached: false };
+    if (debug) return NextResponse.json({ ...base, keys: Object.keys(map).slice(0, 200) });
+    return NextResponse.json(base);
   } catch (e: any) {
     return NextResponse.json({ ok: false, error: String(e?.message ?? e) }, { status: 500 });
   }

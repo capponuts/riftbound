@@ -67,14 +67,34 @@ export default function Binder({}: BinderProps) {
   useEffect(() => {
     (async () => {
       try {
-        const res = await fetch("/api/prices", { cache: "no-cache" });
+        const res = await fetch("/api/prices?debug=1", { cache: "no-cache" });
         if (!res.ok) return;
-        const data = (await res.json()) as { prices?: Record<string, number> };
-        if (data?.prices) setPriceMap(data.prices);
+        const data = (await res.json()) as { prices?: Record<string, number>; keys?: string[]; cached?: boolean };
+        if (data?.prices) {
+          setPriceMap(data.prices);
+          (globalThis as any).__priceMap__ = data.prices;
+          // Debug console
+          try {
+            const keys = Object.keys(data.prices);
+            // eslint-disable-next-line no-console
+            console.debug("[prices] loaded", { count: keys.length, sample: keys.slice(0, 20), cached: data.cached });
+          } catch {}
+        } else {
+          // eslint-disable-next-line no-console
+          console.debug("[prices] no data");
+        }
       } catch {}
     })();
   }, []);
 
+  // Log when price map changes (and expose globally)
+  useEffect(() => {
+    try {
+      (globalThis as any).__priceMap__ = priceMap;
+      // eslint-disable-next-line no-console
+      console.debug("[prices] map update", { count: Object.keys(priceMap || {}).length });
+    } catch {}
+  }, [priceMap]);
   useEffect(() => {
     (async () => {
       try {
@@ -82,11 +102,9 @@ export default function Binder({}: BinderProps) {
         if (!res.ok) return;
         const data = (await res.json()) as Record<string, { owned: boolean; duplicate: boolean; foil: boolean }>;
         setStatusMap(data || {});
-        // Exposer la priceMap pour les tuiles (simplifie sans prop drilling)
-        (globalThis as any).__priceMap__ = priceMap;
       } catch {}
     })();
-  }, [priceMap]);
+  }, []);
 
   function keyFor(name: string, rawNum?: string): string {
     return `${name}|||${rawNum ?? ''}`;
@@ -320,6 +338,12 @@ export default function Binder({}: BinderProps) {
             const lookup = (num ?? "").replace(/s$/i, "");
             const numericOnly = lookup.replace(/^OG[NS]-/i, "");
             const unitPrice = lookup ? (priceMap[lookup] ?? priceMap[numericOnly]) : undefined;
+            if (process.env.NODE_ENV !== "production" && !unitPrice) {
+              try {
+                // eslint-disable-next-line no-console
+                console.debug("[price:miss]", { name: n, raw, lookup, numericOnly });
+              } catch {}
+            }
             return (
               <CardTile key={`${n}-${num ?? ""}`} name={n} imageUrls={urls} owned={owned} foil={foil} duplicate={duplicate} numberText={displayNum} price={unitPrice} onClick={() => openDetails(n, raw)} />
             );
@@ -348,6 +372,12 @@ export default function Binder({}: BinderProps) {
                 const lookup = (num ?? "").replace(/s$/i, "");
                 const numericOnly = lookup.replace(/^OG[NS]-/i, "");
                 const unitPrice = lookup ? (priceMap[lookup] ?? priceMap[numericOnly]) : undefined;
+                if (process.env.NODE_ENV !== "production" && !unitPrice) {
+                  try {
+                    // eslint-disable-next-line no-console
+                    console.debug("[price:miss]", { name: n, raw, lookup, numericOnly });
+                  } catch {}
+                }
                 return (
                   <CardTile key={`${n}-${num ?? ""}`} name={n} imageUrls={urls} owned={owned} foil={foil} duplicate={duplicate} numberText={displayNum} price={unitPrice} onClick={() => openDetails(n, raw)} />
                 );
