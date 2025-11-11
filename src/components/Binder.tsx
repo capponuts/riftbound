@@ -58,32 +58,26 @@ export default function Binder({}: BinderProps) {
   useEffect(() => {
     (async () => {
       try {
-        const res = await fetch("/api/prices?debug=1", { cache: "no-cache" });
-        if (!res.ok) {
-          try {
-            const t = await res.text();
-            // eslint-disable-next-line no-console
-            console.error("[prices] http error", res.status, t.slice(0, 500));
-          } catch {
-            // eslint-disable-next-line no-console
-            console.error("[prices] http error", res.status);
-          }
+        // 1) Essayer d'abord un fichier local public/prices.json que tu peux éditer facilement
+        const local = await fetch("/prices.json", { cache: "no-cache" }).catch(() => null);
+        if (local?.ok) {
+          const json = (await local.json()) as Record<string, number>;
+          setPriceMap(json || {});
+          (globalThis as any).__priceMap__ = json || {};
+          // eslint-disable-next-line no-console
+          console.debug("[prices] loaded from /prices.json", { count: Object.keys(json || {}).length });
           return;
         }
+        // 2) Fallback: tenter l'API interne (scraping), peut être bloqué par le site distant
+        const res = await fetch("/api/prices?debug=1", { cache: "no-cache" });
+        if (!res.ok) return;
         const data = (await res.json()) as { ok?: boolean; prices?: Record<string, number>; keys?: string[]; cached?: boolean; error?: string; pageStatus?: any };
         if (data?.prices) {
           setPriceMap(data.prices);
           (globalThis as any).__priceMap__ = data.prices;
-          // Debug console
-          try {
-            const keys = Object.keys(data.prices);
-            // eslint-disable-next-line no-console
-            console.debug("[prices] loaded", { count: keys.length, sample: keys.slice(0, 20), cached: data.cached, pageStatus: data.pageStatus });
-          } catch {}
-        } else {
           // eslint-disable-next-line no-console
-          console.debug("[prices] no data", data);
-        }
+          console.debug("[prices] loaded (fallback)", { count: Object.keys(data.prices).length, pageStatus: data.pageStatus });
+        } 
       } catch {}
     })();
   }, []);
