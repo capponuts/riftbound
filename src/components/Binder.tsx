@@ -316,9 +316,11 @@ export default function Binder({}: BinderProps) {
             const foil = !!status.foil;
             const duplicate = !!status.duplicate;
             const displayNum = raw ? (raw.split("-")[1] || raw) : "";
+            const lookup = (num ?? "").replace(/s$/i, "");
+            const unitPrice = lookup ? priceMap[lookup] : undefined;
             return (
-              <CardTile key={`${n}-${num ?? ""}`} name={n} imageUrls={urls} owned={owned} foil={foil} duplicate={duplicate} numberText={displayNum} onClick={() => openDetails(n, raw)} />
-              );
+              <CardTile key={`${n}-${num ?? ""}`} name={n} imageUrls={urls} owned={owned} foil={foil} duplicate={duplicate} numberText={displayNum} price={unitPrice} onClick={() => openDetails(n, raw)} />
+            );
             })
           )}
         </div>
@@ -341,8 +343,10 @@ export default function Binder({}: BinderProps) {
                 const foil = !!status.foil;
                 const duplicate = !!status.duplicate;
                 const displayNum = raw ? (raw.split("-")[1] || raw) : "";
+                const lookup = (num ?? "").replace(/s$/i, "");
+                const unitPrice = lookup ? priceMap[lookup] : undefined;
                 return (
-                  <CardTile key={`${n}-${num ?? ""}`} name={n} imageUrls={urls} owned={owned} foil={foil} duplicate={duplicate} numberText={displayNum} onClick={() => openDetails(n, raw)} />
+                  <CardTile key={`${n}-${num ?? ""}`} name={n} imageUrls={urls} owned={owned} foil={foil} duplicate={duplicate} numberText={displayNum} price={unitPrice} onClick={() => openDetails(n, raw)} />
                 );
               })}
           </div>
@@ -402,27 +406,8 @@ function CardImage({ name, urls, owned, foil, duplicate }: { name: string; urls:
   );
 }
 
-function CardTile({ name, imageUrls, owned, foil, duplicate, numberText, onClick }: { name: string; imageUrls: string[]; owned: boolean; foil?: boolean; duplicate?: boolean; numberText?: string; onClick: () => void }) {
+function CardTile({ name, imageUrls, owned, foil, duplicate, numberText, price, onClick }: { name: string; imageUrls: string[]; owned: boolean; foil?: boolean; duplicate?: boolean; numberText?: string; price?: number; onClick: () => void }) {
   const [transform, setTransform] = useState<string>("perspective(800px) rotateX(0deg) rotateY(0deg) scale(1)");
-  const [price, setPrice] = useState<number | null>(null);
-
-  // Price lookup based on card number (normalized like OGN-310)
-  const normalizedNumber = useMemo(() => {
-    if (!numberText) return undefined;
-    const base = (numberText.split("/")[0] || numberText).trim();
-    return base ? `OGN-${base}`.toUpperCase() : undefined;
-  }, [numberText]);
-
-  useEffect(() => {
-    // Price map is in parent; we read via window global injected by parent effect as fallback
-    const g: any = (globalThis as any);
-    const map: Record<string, number> | undefined = g.__priceMap__;
-    if (map && normalizedNumber) {
-      setPrice(map[normalizedNumber] ?? null);
-    } else {
-      setPrice(null);
-    }
-  }, [normalizedNumber]);
 
   function handleMove(e: React.MouseEvent<HTMLDivElement>) {
     const rect = e.currentTarget.getBoundingClientRect();
@@ -460,7 +445,7 @@ function CardTile({ name, imageUrls, owned, foil, duplicate, numberText, onClick
         <span className="line-clamp-2">{name}</span>
         <div className="ml-2 flex shrink-0 flex-col items-end">
           {numberText && <span className="text-xs text-zinc-500">{numberText}</span>}
-          {price != null && (
+          {typeof price === "number" && !Number.isNaN(price) && (
             <span className="text-xs text-amber-300">
               {new Intl.NumberFormat("fr-FR", { style: "currency", currency: "EUR" }).format(price)}
             </span>
