@@ -38,6 +38,7 @@ export default function Binder({}: BinderProps) {
   const refs = useAllCardRefs();
   const [imageMap, setImageMap] = useState<Record<string, string>>({});
   // plus de prix
+  const [priceMap, setPriceMap] = useState<Record<string, number>>({});
   const [query, setQuery] = useState("");
   const [cols, setCols] = useState<number>(4);
   const [setFilter, setSetFilter] = useState<"all" | "ogn" | "ogs">("all");
