@@ -10,6 +10,7 @@ export default function AdminPage() {
   const [q, setQ] = useState("");
   function keyFor(r: { name: string; number?: string }) { return `${r.name}|||${r.number ?? ''}`; }
   const [setFilter, setSetFilter] = useState<"all" | "ogn" | "ogs">("all");
+  const [exporting, setExporting] = useState(false);
 
   useEffect(() => {
     let cancelled = false;
@@ -73,6 +74,28 @@ export default function AdminPage() {
     });
   }
 
+  async function exportMissingTxt() {
+    try {
+      setExporting(true);
+      const res = await fetch("/api/missing?format=txt", { cache: "no-cache" });
+      if (!res.ok) throw new Error(`HTTP ${res.status}`);
+      const text = await res.text();
+      const blob = new Blob([text], { type: "text/plain;charset=utf-8" });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = "cartes-manquantes.txt";
+      document.body.appendChild(a);
+      a.click();
+      a.remove();
+      URL.revokeObjectURL(url);
+    } catch {
+      // silencieux pour l'instant
+    } finally {
+      setExporting(false);
+    }
+  }
+
   return (
     <div className="mx-auto max-w-5xl p-4">
       <div className="mb-2 flex items-center justify-between gap-3">
@@ -89,6 +112,15 @@ export default function AdminPage() {
             <option value="ogn">Set de Base (OGN)</option>
             <option value="ogs">Proving Grounds (OGS)</option>
           </select>
+          <button
+            onClick={exportMissingTxt}
+            disabled={exporting}
+            className="rounded-md border border-amber-400/40 bg-zinc-900 px-3 py-2 text-sm text-amber-200 hover:bg-zinc-800 disabled:opacity-60"
+            aria-label="Exporter les cartes manquantes"
+            title="Télécharger la liste des cartes non possédées"
+          >
+            {exporting ? "Export…" : "Exporter manquantes"}
+          </button>
           <a href="/" className="rounded-md border border-zinc-700/60 px-3 py-2 text-zinc-300 hover:bg-zinc-800" aria-label="Accueil">
             🏠 Home
           </a>
