@@ -29,9 +29,11 @@ async function readAllRefs(): Promise<Ref[]> {
 	return out;
 }
 
-export async function GET() {
+export async function GET(req: Request) {
 	try {
 		await ensureSchema();
+		const url = new URL(req.url);
+		const format = url.searchParams.get("format")?.toLowerCase();
 		// Charger la liste de toutes les cartes (référentiel)
 		const refs = await readAllRefs();
 		// Charger les statuts actuels de collection
@@ -44,6 +46,13 @@ export async function GET() {
 		}
 		// Filtrer celles non possédées (owned=false ou absentes)
 		const missing = refs.filter((r) => !statusMap.get(keyFor(r)));
+		if (format === "txt") {
+			const lines = missing.map((r) => `${(r.number ?? "").split("/")[0]} - ${r.name}`.trim()).join("\n");
+			return new NextResponse(lines, {
+				status: 200,
+				headers: { "Content-Type": "text/plain; charset=utf-8", "Cache-Control": "no-store" }
+			});
+		}
 		return NextResponse.json(missing, { status: 200, headers: { "Cache-Control": "no-store" } });
 	} catch (e: any) {
 		return NextResponse.json({ error: String(e?.message ?? e) }, { status: 500 });
