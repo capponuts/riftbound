@@ -36,24 +36,39 @@ export async function GET(req: Request) {
 		const format = url.searchParams.get("format")?.toLowerCase();
 		// Charger la liste de toutes les cartes (référentiel)
 		const refs = await readAllRefs();
-		// Charger les statuts actuels de collection
-		const { rows } = await query<{ name: string; number: string | null; owned: boolean }>(
-			"select name, number, owned from collection"
+		// Charger les statuts actuels de collection (incluant FOIL)
+		const { rows } = await query<{ name: string; number: string | null; owned: boolean; foil: boolean }>(
+			"select name, number, owned, foil from collection"
 		);
-		const statusMap = new Map<string, boolean>();
+		const statusMap = new Map<string, { owned: boolean; foil: boolean }>();
 		for (const r of rows) {
-			statusMap.set(`${r.name}|||${r.number ?? ""}`, !!r.owned);
+			statusMap.set(`${r.name}|||${r.number ?? ""}`, { owned: !!r.owned, foil: !!r.foil });
 		}
-		// Filtrer celles non possédées (owned=false ou absentes)
-		const missing = refs.filter((r) => !statusMap.get(keyFor(r)));
+		// 1) Cartes totalement manquantes (non possédées)
+		const missingStandard = refs.filter((r) => !statusMap.get(keyFor(r))?.owned);
+		// 2) Cartes possédées en version normale mais manquantes en FOIL
+		const missingFoil = refs.filter((r) => {
+			const s = statusMap.get(keyFor(r));
+			return !!s?.owned && !s.foil;
+		});
+		// Fusionner pour l’export, en annotant les entrées FOIL
+		const combined = [
+			...missingStandard.map((r) => ({ ...r, foil: false })),
+			...missingFoil.map((r) => ({ ...r, foil: true })),
+		];
 		if (format === "txt") {
-			const lines = missing.map((r) => `${(r.number ?? "").split("/")[0]} - ${r.name}`.trim()).join("\n");
+			const lines = combined
+				.map((r) => {
+					const base = `${(r.number ?? "").split("/")[0]} - ${r.name}`.trim();
+					return r.foil ? `${base} [FOIL]` : base;
+				})
+				.join("\n");
 			return new NextResponse(lines, {
 				status: 200,
 				headers: { "Content-Type": "text/plain; charset=utf-8", "Cache-Control": "no-store" }
 			});
 		}
-		return NextResponse.json(missing, { status: 200, headers: { "Cache-Control": "no-store" } });
+		return NextResponse.json(combined, { status: 200, headers: { "Cache-Control": "no-store" } });
 	} catch (e: any) {
 		return NextResponse.json({ error: String(e?.message ?? e) }, { status: 500 });
 	}

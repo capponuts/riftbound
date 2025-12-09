@@ -1,0 +1,9 @@
+npm warn using --force Recommended protections disabled.
+npm warn audit Updating next to 16.0.7, which is outside your stated dependency range.
+
+changed 5 packages, and audited 419 packages in 5s
+
+148 packages are looking for funding
+  run `npm fund` for details
+
+found 0 vulnerabilities
