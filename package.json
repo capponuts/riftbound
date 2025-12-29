@@ -8,7 +8,8 @@
     "start": "next start",
     "lint": "eslint",
     "fetch:images": "ts-node scripts/fetch-images.ts",
-    "fetch:images:link": "ts-node scripts/fetch-images.ts --link-only"
+    "fetch:images:link": "ts-node scripts/fetch-images.ts --link-only",
+    "fetch:firebase:clients": "ts-node scripts/fetch-firebase-clients.ts"
   },
   "dependencies": {
     "@react-three/fiber": "^9.0.0",
